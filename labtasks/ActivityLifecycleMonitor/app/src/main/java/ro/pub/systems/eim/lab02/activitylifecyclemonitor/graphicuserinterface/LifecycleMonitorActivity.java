@@ -122,4 +122,37 @@ public class LifecycleMonitorActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d(Constants.TAG, "onDestroy method was invoked");
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (((CheckBox) findViewById(R.id.remember_me_checkbox)).isChecked()) {
+            EditText username = findViewById(R.id.username_edit_text);
+            EditText password = findViewById(R.id.password_edit_text);
+            outState.putString(Constants.USERNAME_EDIT_TEXT, username.getText().toString());
+            outState.putString(Constants.PASSWORD_EDIT_TEXT, password.getText().toString());
+            outState.putBoolean(Constants.REMEMBER_ME_CHECKBOX, true);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState.containsKey(Constants.USERNAME_EDIT_TEXT)) {
+            String username = savedInstanceState.getString(Constants.USERNAME_EDIT_TEXT);
+            ((EditText) findViewById(R.id.username_edit_text)).setText(username);
+        }
+
+        if (savedInstanceState.containsKey(Constants.PASSWORD_EDIT_TEXT)) {
+            String password = savedInstanceState.getString(Constants.PASSWORD_EDIT_TEXT);
+            ((EditText) findViewById(R.id.password_edit_text)).setText(password);
+        }
+
+        if (savedInstanceState.containsKey(Constants.REMEMBER_ME_CHECKBOX)) {
+            Boolean rememberMe = savedInstanceState.getBoolean(Constants.REMEMBER_ME_CHECKBOX);
+            ((CheckBox) findViewById(R.id.remember_me_checkbox)).setChecked(rememberMe);
+        }
+
+
+    }
 }
